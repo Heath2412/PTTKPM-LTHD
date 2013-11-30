@@ -11,8 +11,9 @@ namespace School.BLL
     public interface IStudentService : IService<Student>
     {
         void CreateAccount(Student student, StudentProfile profile);
-        void AddStudentsToClass(IEnumerable<Student> students, Class cl, string note="");
-        void AddStudentToClass(Student student, Class cl, string note = "");
+        void AddStudentsToClass(IEnumerable<object> studentIds, object classId, string note="");
+        void AddStudentToClass(object id, Class cl, string note = "");
         void EditStudentMark(Student student, StudentMark mark);
+        void EditProfile(Student student, StudentProfile profile);
     }
 }

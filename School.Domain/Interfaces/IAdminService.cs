@@ -16,5 +16,7 @@ namespace School.BLL.Interfaces
         void AddSubject(Subject subject);
         void CloseSubject(object id);
         void OpenSubject(object id);
+
+        void CreateMinistryAccount(Account account);
     }
 }
