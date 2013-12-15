@@ -14,5 +14,8 @@ namespace School.BLL.DomainModel
 
     public class Class : Entity
     {
+        public ClassState State { get; set; }
+
+        public virtual List<Student> Students { get; set; }
     }
 }

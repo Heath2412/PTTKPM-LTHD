@@ -1,21 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace School.BLL
+namespace School.BLL.Interfaces
 {
-    public interface IService<T>
+    public interface IService
     {
-        T GetByID(object id);
-        IEnumerable<T> Get(Expression<Func<T, bool>> filter = null,
+        T GetByID<T>(object id) where T : class;
+        IEnumerable<T> Get<T>(
+            System.Linq.Expressions.Expression<Func<T, bool>> filter = null,
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
-            string includeProperties = "");
-        void Create(T obj);
-        void Update(T objToUpdate);
-        void Delete(object id);
-        void Delete(T objToUpdate);
+            string includeProperties = "")
+            where T : class;
+        void Create<T>(T obj) where T : class;
+        void Update<T>(T objToUpdate) where T : class;
+        void Delete<T>(object id) where T : class;
+        void Delete<T>(T objToDelete) where T : class;
+        void SaveChange();
     }
 }

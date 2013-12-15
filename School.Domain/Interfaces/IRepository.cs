@@ -5,9 +5,13 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace School.BLL
+namespace School.BLL.Interfaces
 {
-    public interface IRepository<T>
+    public interface IRepository
+    {
+    }
+
+    public interface IRepository<T> : IRepository where T:class
     {
         IEnumerable<T> Get(Expression<Func<T, bool>> filter = null,
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
@@ -21,8 +25,6 @@ namespace School.BLL
 
         void Delete(T objToDelete);
 
-        void Update(T objToUpdate);
-
-        void Save();
+        void Update(T objToUpdate); 
     }
 }

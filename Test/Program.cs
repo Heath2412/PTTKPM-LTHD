@@ -12,7 +12,7 @@ namespace Test
     {
         static void Main(string[] args)
         {
-            TestXML test = new TestXML();
+       /*     TestXML test = new TestXML();
             XElement xelement = new XElement("testname");
             xelement.SetAttributeValue("abc", "def");
             test.XmlWrapper = xelement;
@@ -25,7 +25,7 @@ namespace Test
             test.XmlWrapper = xelement;
             System.Console.WriteLine(xelement.Attribute("abc").ToString());
             rep.Update(test);
-            rep.Save();
+            rep.Save();*/
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using School.BLL.DomainModel;
+using School.BLL.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -12,7 +13,7 @@ namespace School.DAL
 {
     public class SchoolContext : DbContext
     {
-        public SchoolContext()
+        public SchoolContext() : base("DefaultConnection")
         {
             Database.SetInitializer(new SchoolInitializer());
         }
@@ -33,7 +34,7 @@ namespace School.DAL
         public DbSet<NotificationCategory> NotificationCategories { get; set; }
         public DbSet<SchoolYear> SchoolYears { get; set; }
 
-  //      public DbSet<Temp> temp { get; set; }
+        public DbSet<Temp> temp2 { get; set; }
     }
 
     public class SchoolInitializer : DropCreateDatabaseIfModelChanges<SchoolContext>
@@ -45,6 +46,7 @@ namespace School.DAL
             {
                 context.Roles.Add(new Role() { Name=role.ToString() });
             }
+            context.SaveChanges();
 
             // Init school year
             string schoolYear1 = "";
@@ -67,6 +69,16 @@ namespace School.DAL
                                     "Công dân", "Công nghệ", "Thể dục" };
             foreach (string subject in subjects)
                 context.Subjects.Add(new Subject() { Name=subject });
+            context.SaveChanges();
+
+            // Init class
+            string[] classes = { "10A1", "10A2", "10A3", "11A1", "11A2", "11A3",
+                               "12A1", "12A2", "12A3"};
+            foreach (string cl in classes)
+            {
+                context.Classes.Add(new Class() { Name=cl });
+            }
+            context.SaveChanges();
 
             base.Seed(context);
         }

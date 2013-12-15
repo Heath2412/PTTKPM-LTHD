@@ -5,19 +5,39 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq.Expressions;
 using School.BLL;
+using System.Data.Entity.Validation;
+using School.BLL.Interfaces;
 
 namespace School.DAL
 {
     public class RepositoryImpl<T> : IRepository<T> where T:class
     {
-        SchoolContext context = new SchoolContext();
+        private SchoolContext context;
+
+        public RepositoryImpl(SchoolContext context)
+        {
+            this.context = context;
+        }
+
         public IEnumerable<T> Get(Expression<Func<T, bool>> filter = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, string includeProperties = "")
         {
             IQueryable<T> query = context.Set<T>();
-
-            if (filter != null)
+            try
             {
-                query = query.Where(filter);
+                if (filter != null)
+                {
+                    query = query.Where(filter);
+                }
+            }
+            catch (DbEntityValidationException ex)
+            {
+                foreach (var validationErrors in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in validationErrors.ValidationErrors)
+                    {
+                        System.Diagnostics.Trace.TraceInformation("Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage);
+                    }
+                }
             }
 
             foreach (var includeProperty in includeProperties.Split
@@ -61,11 +81,6 @@ namespace School.DAL
         public void Update(T objToUpdate)
         {
             context.Entry(objToUpdate).State = EntityState.Modified;
-        }
-
-        public void Save()
-        {
-            context.SaveChanges();
         }
     }
 }
